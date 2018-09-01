@@ -16,10 +16,14 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('invoice_number')->unsigned()->index();
-            $table->integer('customer_id')->unsigned();
+            $table->integer('customer_id')->unsigned()->index();
+            $table->integer('total');
+            $table->enum('status', ['payment_due', 'paid_in_full'])->default('payment_due'); //todo, a partial payment status?
+            $table->boolean('is_paid')->default(false);
             $table->string('note')->nullable();
             $table->date('invoice_date');
             $table->date('due_date');
+            $table->date('paid_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

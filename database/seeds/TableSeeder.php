@@ -16,6 +16,9 @@ class TableSeeder extends Seeder
         $invoice = factory(Invoice::class)->create([
             'customer_id' => $customer->id,
         ]);
+        factory(Invoice::class)->create([
+            'customer_id' => $customer->id,
+        ]);
         factory(Product::class)->create([
             'invoice_id' => $invoice->id,
         ]);
