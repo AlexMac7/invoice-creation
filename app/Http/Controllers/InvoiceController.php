@@ -9,7 +9,11 @@ class InvoiceController extends Controller
 {
     public function index()
     {
-        //
+        $invoices = Invoice::with('customer')->get();
+
+        return view('main', [
+            'invoices' => $invoices,
+        ]);
     }
 
     public function create()

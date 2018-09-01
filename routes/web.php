@@ -12,12 +12,12 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/invoices');
 });
 
-Route::get('/invoices', 'InvoicesController@index')->name('invoices.index');
-Route::get('/invoices/create', 'InvoicesController@create')->name('invoices.create');
-Route::post('/invoices', 'InvoicesController@store')->name('invoices.store');
-Route::get('/invoices/{invoice}', 'InvoicesController@show')->name('invoices.show');
+Route::get('/invoices', 'InvoiceController@index')->name('invoices.index');
+Route::get('/invoices/create', 'InvoiceController@create')->name('invoices.create');
+Route::post('/invoices', 'InvoiceController@store')->name('invoices.store');
+Route::get('/invoices/{invoice}', 'InvoiceController@show')->name('invoices.show');
 Route::patch('/invoices/{invoice}/update', 'InvoiceController@update')->name('invoices.update');
 Route::delete('/invoices/{invoice}/delete', 'InvoiceController@delete')->name('invoices.delete');
