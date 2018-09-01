@@ -71,7 +71,11 @@
 <body>
 <div class="container">
     <h1 class="header">Invoices List</h1>
-    <button class="create-invoice">Create New Invoice</button>
+    <div class="create-invoice">
+        <form class="button-holder" method="GET">
+            <button type="submit" class="create-button" formaction="{{ route('invoices.create') }}">Create Invoice</button>
+        </form>
+    </div>
     <div class="invoices">
         @foreach($invoices as $invoice)
             <div class="invoice">
@@ -85,15 +89,17 @@
                     <p>Invoice Paid Out On: {{! empty($invoice->paid_at) ? $invoice->paid_at->toFormattedDateString() : 'N/A'}}</p>
                 </div>
                 <div class="invoice-actions">
-                    <div class="button-holder">
-                        <button>View</button>
-                    </div>
-                    <div class="button-holder">
-                        <button>Edit</button>
-                    </div>
-                    <div class="button-holder">
-                        <button>Delete</button>
-                    </div>
+                    <form class="button-holder" method="GET">
+                        <button type="submit" class="view-button" formaction="{{ route('invoices.show', $invoice) }}">View Invoice</button>
+                    </form>
+                    <form class="button-holder" method="GET">
+                        <button type="submit" class="edit-button" formaction="{{ route('invoices.edit', $invoice) }}">Edit Invoice</button>
+                    </form>
+                    <form class="button-holder" method="POST">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
+                        <button type="submit" class="delete-button" formaction="{{ route('invoices.delete', $invoice) }}">Delete Invoice</button>
+                    </form>
                 </div>
             </div>
         @endforeach
