@@ -16,9 +16,7 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('invoice_id')->unsigned()->nullable();
-            $table->integer('quantity')->unsigned();
             $table->integer('price')->unsigned();
-            $table->integer('tax')->unsigned();
             $table->string('name')->unique();
             $table->timestamps();
             $table->softDeletes();

@@ -15,6 +15,8 @@ class Invoice extends Model
         'invoice_number' => 'integer',
         'customer_id' => 'integer',
         'total' => 'integer',
+        'subtotal' => 'integer',
+        'tax' => 'integer',
         'status' => 'string',
         'note' => 'string',
         'is_paid' => 'boolean',

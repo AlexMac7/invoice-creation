@@ -13,9 +13,7 @@ class Product extends Model
 
     protected $casts = [
         'invoice_id' => 'integer',
-        'quantity' => 'integer',
         'price' => 'integer',
-        'tax' => 'integer',
         'name' => 'string',
     ];
 

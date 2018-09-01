@@ -18,6 +18,8 @@ class CreateInvoicesTable extends Migration
             $table->integer('invoice_number')->unsigned()->index();
             $table->integer('customer_id')->unsigned()->index();
             $table->integer('total');
+            $table->integer('subtotal');
+            $table->integer('tax')->unsigned();
             $table->enum('status', ['payment_due', 'paid_in_full'])->default('payment_due'); //todo, a partial payment status?
             $table->boolean('is_paid')->default(false);
             $table->string('note')->nullable();
