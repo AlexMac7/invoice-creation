@@ -2,12 +2,13 @@
 
 namespace App;
 
+use App\Traits\FormatMoney;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, FormatMoney;
 
     protected $guarded = [];
 
@@ -20,5 +21,10 @@ class Product extends Model
     public function invoice()
     {
         return $this->belongsTo(Invoice::class);
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }

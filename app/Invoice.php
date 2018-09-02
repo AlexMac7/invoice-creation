@@ -2,12 +2,13 @@
 
 namespace App;
 
+use App\Traits\FormatMoney;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Invoice extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, FormatMoney;
 
     protected $guarded = [];
 
@@ -41,14 +42,19 @@ class Invoice extends Model
         return $this->hasMany(Payment::class);
     }
 
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
     //Accessors, Mutators, Helpers, Etc.
     public function getFormattedStatusAttribute()
     {
         return ucfirst(str_replace('_', ' ', $this->status));
     }
 
-    public function getFormattedTotalAttribute() //move to a helper or trait to be used by product as well
+    public function getFormattedTotalAttribute()
     {
-        return money_format('%i', $this->total / 100);
+        return '$' . money_format('%i', $this->total / 100);
     }
 }

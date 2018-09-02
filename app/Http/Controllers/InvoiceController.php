@@ -79,10 +79,13 @@ class InvoiceController extends Controller
 
     public function show(Invoice $invoice)
     {
-        //todo
+        $orderItems = $invoice->orderItems()->with('product')->get();
+        $payments = $invoice->payments()->get();
 
         return view('view-invoice', [
             'invoice' => $invoice,
+            'orderItems' =>  $orderItems,
+            'payments' => $payments,
         ]);
     }
 
