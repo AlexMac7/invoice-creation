@@ -19,7 +19,7 @@
             margin: 0;
             box-sizing: border-box;
             line-height: 1.15;
-            font-size: 20px; /* Todo */
+            font-size: 20px;
         }
         *, *:before, *:after {
             box-sizing: inherit;
@@ -30,6 +30,29 @@
             color: #636b6f;
             margin: 0;
             padding: 0;
+        }
+        button {
+            width: 50%%;
+            height: 3rem;
+            margin: 0 1rem;
+            color: blue;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: .5rem;
+        }
+        .form-control {
+            border-radius: .25rem;
+            box-shadow: inset 0 1px 1px 0 hsla(0, 0%, 0%, .08);
+            background-color: hsl(220, 12%, 95%);
+        }
+        label {
+            display: inline-block;
+            width: 300px;
+            text-align: left;
+        }
+        input, select {
+            width: 300px;
+            font-size: 1rem;
         }
     </style>
 </head>
