@@ -41,7 +41,7 @@
                 <div class="info">
                     <p>Invoice Id #{{$invoice->id}}</p>
                     <p>Customer Name: {{$invoice->customer->name}}</p>
-                    <p>Total: ${{$invoice->formatted_total}}</p>
+                    <p>Total: {{$invoice->formatted_total}}</p>
                     <p>Status: {{$invoice->formatted_status}}</p>
                     <p>Date Issued: {{$invoice->created_at->toFormattedDateString()}}</p>
                     <p>Invoice Payment Due Date: {{$invoice->due_date->toFormattedDateString()}}</p>

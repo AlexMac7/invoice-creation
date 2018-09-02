@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Customer;
 use App\Product;
+use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -54,9 +55,9 @@ class CreateInvoiceTest extends TestCase
             'status' => 'paid_in_full',
             'note' => 'Great customer!',
             'is_paid' => true,
-            'invoice_date' => '2018-09-01',
-            'due_date' => '2018-09-30',
-            'paid_at' => '2018-09-01',
+            'invoice_date' => Carbon::parse('September 1 2018')->toDateString(),
+            'due_date' => Carbon::parse('September 30 2018')->toDateString(),
+            'paid_at' => now()->toDateString(),
         ]);
     }
 }
