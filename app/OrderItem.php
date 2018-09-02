@@ -2,12 +2,12 @@
 
 namespace App;
 
-use App\Traits\FormatMoney;
+use App\Traits\FormatMoneyAndTax;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderItem extends Model
 {
-    use FormatMoney;
+    use FormatMoneyAndTax;
 
     protected $guarded = [];
 
@@ -28,5 +28,10 @@ class OrderItem extends Model
     public function invoice()
     {
         return $this->belongsTo(Invoice::class);
+    }
+
+    public function getFormattedPriceAttribute()
+    {
+        return $this->formatMoney($this->price);
     }
 }

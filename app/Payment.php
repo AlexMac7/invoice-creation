@@ -18,4 +18,9 @@ class Payment extends Model
     {
         return $this->belongsTo(Invoice::class);
     }
+
+    public function getFormattedAmountAttribute()
+    {
+        return '$' . money_format('%i', $this->amount / 100);
+    }
 }

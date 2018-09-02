@@ -2,13 +2,13 @@
 
 namespace App;
 
-use App\Traits\FormatMoney;
+use App\Traits\FormatMoneyAndTax;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Invoice extends Model
 {
-    use SoftDeletes, FormatMoney;
+    use SoftDeletes, FormatMoneyAndTax;
 
     protected $guarded = [];
 
@@ -53,8 +53,13 @@ class Invoice extends Model
         return ucfirst(str_replace('_', ' ', $this->status));
     }
 
+    public function getFormattedSubtotalAttribute()
+    {
+        return $this->formatMoney($this->subtotal);
+    }
+
     public function getFormattedTotalAttribute()
     {
-        return '$' . money_format('%i', $this->total / 100);
+        return $this->formatMoney($this->total);
     }
 }

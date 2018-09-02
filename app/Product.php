@@ -2,13 +2,13 @@
 
 namespace App;
 
-use App\Traits\FormatMoney;
+use App\Traits\FormatMoneyAndTax;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use SoftDeletes, FormatMoney;
+    use SoftDeletes, FormatMoneyAndTax;
 
     protected $guarded = [];
 
@@ -26,5 +26,10 @@ class Product extends Model
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function getFormattedPriceAttribute()
+    {
+        return $this->formatMoney($this->price);
     }
 }

@@ -10,6 +10,10 @@
         display: grid;
         grid-template-columns: 1fr;
     }
+    .product-payment-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
 </style>
 {{--todo--}}
 <div class="container">
@@ -18,7 +22,7 @@
         <div class="customer-info">
             <p>Invoice Id #{{$invoice->id}}</p>
             <p>Customer Name: {{$invoice->customer->name}}</p>
-            <p>Total: {{$invoice->formatted_total}}</p>
+            {{--<p>Total: {{$invoice->formatted_total}}</p>--}}
             <p>Status: {{$invoice->formatted_status}}</p>
             <p>Date Issued: {{$invoice->created_at->toFormattedDateString()}}</p>
             <p>Invoice Payment Due Date: {{$invoice->due_date->toFormattedDateString()}}</p>
@@ -26,12 +30,22 @@
                 On: {{! empty($invoice->paid_at) ? $invoice->paid_at->toFormattedDateString() : 'N/A'}}</p>
         </div>
         <div class="product-payment-info">
-            @foreach($orderItems as $item)
-                <p>Product Name: {{$item->product_name}}</p>
-                <p>Quantity: {{$item->quantity}}</p>
-                <p>Price: {{$item->formatted_price}}</p>
-                <p>Tax: {{$item->formatted_tax}}</p>
-            @endforeach
+            <div class="product-info">
+                <h4>Products</h4>
+                @foreach($orderItems as $item)
+                    <p>Product Name: {{$item->product_name}}</p>
+                    <p>Quantity: {{$item->quantity}}</p>
+                    <p>Price: {{$item->formatted_price}}</p>
+                    <p>Tax: {{$item->formatted_tax}}</p>
+                @endforeach
+            </div>
+            <div class="payment-info">
+                <h4>Payments</h4>
+                @foreach($payments as $payment)
+                    <p>Payment Type: {{$payment->type}}</p>
+                    <p>Amount: {{$payment->formatted_amount}}</p>
+                @endforeach
+            </div>
             {{--
             need product with base price, quantity (1) and tax(?)
             when making an invoice need to update those fields
@@ -39,10 +53,12 @@
             product hasMany orderItem, that has those fields as well
             then an invoice hasMany orderItems
             --}}
-                @foreach($payments as $payment)
-                    <p>Payment Type: {{$payment->id}}</p>
-                    <p>Payment Amount: {{$payment->id}}</p>
-                @endforeach
+        </div>
+        <h4>Total</h4>
+        <div class="totals-info">
+            <p>Subtotal: {{$invoice->formatted_subtotal}}</p>
+            <p>Tax: {{$invoice->formatted_tax}}</p>
+            <p>Total: {{$invoice->formatted_total}}</p>
         </div>
     </div>
     {{--a. The first section will be an overview containing the customer name, their--}}

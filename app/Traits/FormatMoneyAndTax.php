@@ -2,15 +2,15 @@
 
 namespace App\Traits;
 
-trait FormatMoney
+trait FormatMoneyAndTax
 {
     public function getFormattedTaxAttribute()
     {
         return $this->tax . '%';
     }
 
-    public function getFormattedPriceAttribute()
+    public function formatMoney($number)
     {
-        return '$' . money_format('%i', $this->price / 100);
+        return '$' . money_format('%i', $number / 100);
     }
 }
