@@ -11,7 +11,6 @@ class Customer extends Model
     protected $casts = [
         'name' => 'string',
         'address' => 'string',
-        'email' => 'string',
     ];
 
     public function invoices()
