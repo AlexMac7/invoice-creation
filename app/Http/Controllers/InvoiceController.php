@@ -24,6 +24,7 @@ class InvoiceController extends Controller
 
         return view('create-invoice', [
             'products' => $products,
+            'orderItems' => collect([]),
         ]);
     }
 
@@ -37,7 +38,7 @@ class InvoiceController extends Controller
             'invoice_number' => ['required', 'numeric', 'unique:invoices,invoice_number'],
             'due_date' => ['required', 'date'],
             'note' => ['required', 'string'],
-//            //second part
+            //second part
             'product_name' => ['required'],
             'product_name.*' => ['required', 'string'],
             'quantity' => ['required'],
@@ -48,7 +49,7 @@ class InvoiceController extends Controller
             'tax.*' => ['required', 'numeric', 'min:0', 'max:20'],
             'product_id' => ['required'],
             'product_id.*' => ['required', 'exists:products,id'],
-//            //third part
+            //third part
             'payment_type' => ['required'],
             'payment_type.*' => ['required', 'string', 'in:cash,credit,debit,e-transfer'],
             'amount' => ['required'],
@@ -67,22 +68,39 @@ class InvoiceController extends Controller
 
         return view('view-invoice', [
             'invoice' => $invoice,
-            'orderItems' =>  $orderItems,
+            'orderItems' => $orderItems,
             'payments' => $payments,
         ]);
     }
 
     public function edit(Invoice $invoice)
     {
-        dd('todo edit');
-        /*
-         * return view 'edit' with $invoice
-         */
+        $orderItems = $invoice->orderItems;
+        $payments = $invoice->payments;
+        $products = Product::all();
+
+        return view('edit-invoice', [
+            'invoice' => $invoice,
+            'orderItems' => $orderItems,
+            'payments' => $payments,
+            'products' => $products,
+        ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Invoice $invoice)
     {
-        dd('todo update');
+        $validatedFields = $request->validate([
+//            'customer_name' => ['required', 'string', 'min:2'], //todo
+//            'customer_address' => ['required', 'string'],
+            'invoice_date' => ['required', 'date'],
+            'invoice_number' => ['required', 'numeric', 'unique:invoices,invoice_number'],
+            'due_date' => ['required', 'date'],
+            'note' => ['required', 'string'],
+        ]);
+
+        $invoice->update($validatedFields);
+
+        return redirect()->route('invoices.edit', ['invoice' => $invoice]);
     }
 
     public function delete(Invoice $invoice)

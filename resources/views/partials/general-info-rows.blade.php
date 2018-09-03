@@ -3,10 +3,15 @@
         padding: .25rem 0;
     }
 </style>
+
+@php
+    $invoicePresent = (! empty($invoice));
+@endphp
+
 <div class="general-info-rows">
     <div class="customer-name-row">
         <label for="customer-name">{{ __('Customer Name*') }}</label>
-        <input id="customer-name" type="text" class="form-control" name="customer_name" value="{{ old('customer_name') }}" required autofocus>
+        <input id="customer-name" type="text" class="form-control" name="customer_name" value="{{ ($invoicePresent ? $invoice->customer->name : null) }}" required autofocus>
 
         @if ($errors->has('customer_name'))
             <div class="invalid-feedback">
@@ -16,7 +21,7 @@
     </div>
     <div class="customer-address-row">
         <label for="customer-address">{{ __('Customer Address*') }}</label>
-        <input id="customer-address" type="text" class="form-control" name="customer_address" value="{{ old('customer_address') }}" required autofocus>
+        <input id="customer-address" type="text" class="form-control" name="customer_address" value="{{ ($invoicePresent ? $invoice->customer->address : null) }}" required autofocus>
 
         @if ($errors->has('customer_address'))
             <div class="invalid-feedback">
@@ -26,7 +31,7 @@
     </div>
     <div class="invoice-date-row">
         <label for="invoice-date">{{ __('Invoice Date*') }}</label>
-        <input id="invoice-date" type="date" class="form-control" name="invoice_date" value="{{ now()->toDateString() }}" required autofocus>
+        <input id="invoice-date" type="date" class="form-control" name="invoice_date" value="{{ ($invoicePresent ? $invoice->invoice_date->toDateString() : now()->toDateString()) }}" required autofocus>
 
         @if ($errors->has('invoice_date'))
             <div class="invalid-feedback">
@@ -36,7 +41,7 @@
     </div>
     <div class="invoice-number-row">
         <label for="invoice-number">{{ __('Invoice Number*') }}</label>
-        <input id="invoice-number" type="number" class="form-control" name="invoice_number" value="{{ old('invoice_number') }}" min="0" autofocus>
+        <input id="invoice-number" type="number" class="form-control" name="invoice_number" value="{{ ($invoicePresent ? $invoice->invoice_number : null) }}" min="0" autofocus>
 
         @if ($errors->has('invoice_number'))
             <div class="invalid-feedback">
@@ -46,7 +51,7 @@
     </div>
     <div class="due-date-row">
         <label for="due-date">{{ __('Invoice Due Date*') }}</label>
-        <input id="due-date" type="date" class="form-control" name="due_date" value="{{ now()->addDays(13)->toDateString() }}" required autofocus>
+        <input id="due-date" type="date" class="form-control" name="due_date" value="{{ ($invoicePresent ? $invoice->due_date->toDateString() : now()->addDays(13)->toDateString()) }}" required autofocus>
 
         @if ($errors->has('due_date'))
             <div class="invalid-feedback">
@@ -56,7 +61,7 @@
     </div>
     <div class="note-row">
         <label for="note">{{ __('Invoice Note*') }}</label>
-        <input id="note" type="text" class="form-control" name="note" value="{{ old('note') }}" required autofocus>
+        <input id="note" type="text" class="form-control" name="note" value="{{ ($invoicePresent ? $invoice->note : null) }}" required autofocus>
 
         @if ($errors->has('note'))
             <div class="invalid-feedback">

@@ -24,12 +24,11 @@
 {{--todo--}}
 <div class="container">
     <h1 class="header">Invoice #{{$invoice->invoice_number}}</h1>
-    <a class="back-button" href="{{ URL::previous() }}"><strong>Return To Previous Page</strong></a>
+    <a class="back-button" href="{{ route('invoices.index') }}"><strong>Return To Index</strong></a>
     <div class="invoice">
         <div class="customer-info">
             <p>Invoice Id #{{$invoice->id}}</p>
             <p>Customer Name: {{$invoice->customer->name}}</p>
-            {{--<p>Total: {{$invoice->formatted_total}}</p>--}}
             <p>Status: {{$invoice->formatted_status}}</p>
             <p>Date Issued: {{$invoice->created_at->toFormattedDateString()}}</p>
             <p>Invoice Payment Due Date: {{$invoice->due_date->toFormattedDateString()}}</p>
@@ -57,13 +56,6 @@
                     </div>
                 @endforeach
             </div>
-            {{--
-            need product with base price, quantity (1) and tax(?)
-            when making an invoice need to update those fields
-            so need a new model to store update price, quantity and tax
-            product hasMany orderItem, that has those fields as well
-            then an invoice hasMany orderItems
-            --}}
         </div>
         <h4>Total</h4>
         <div class="totals-info">
@@ -72,11 +64,5 @@
             <p>Total: {{$invoice->formatted_total}}</p>
         </div>
     </div>
-    {{--a. The first section will be an overview containing the customer name, their--}}
-    {{--address, invoice date, invoice number, due date and note.--}}
-    {{--b. The second section will contain both the purchase and payment line items--}}
-    {{--with the product or payment name, quantity, price, tax and total.--}}
-    {{--c. The third section will contain the totals calculated from the invoice line--}}
-    {{--items.--}}
 </div>
 @endsection

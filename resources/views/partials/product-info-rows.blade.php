@@ -38,12 +38,12 @@
             '<label for="product-name">Product Name</label>\
             <input id="product-name" type="text" class="form-control" name="product_name[]" readonly="readonly"/>\
             <label for="quantity">Quantity*</label>\
-            <input id="quantity" type="text" class="form-control" name="quantity[]" />\
+            <input id="quantity" type="text" class="form-control" name="quantity[]"/>\
             <label for="price">Price* ($)</label>\
-            <span><input id="price" type="number" step="0.01" class="form-control" name="price[]" /></span>\
+            <input id="price" type="number" step="0.01" class="form-control" name="price[]"/>\
             <label for="tax">Tax*</label>\
             <input id="tax" type="number" class="form-control" name="tax[]" readonly="readonly"/>\
-            <input id="product-id" type="hidden" class="form-control" name="product_id[]" />\
+            <input id="product-id" type="hidden" class="form-control" name="product_id[]"/>\
             <button id="remove-product" value="-" onclick="removeProductRow(this)">Remove Product</button>';
 
         container.appendChild(productNameRow);

@@ -33,8 +33,8 @@
         }
         button {
             width: 50%;
-            height: 3rem;
-            margin: 1rem 0;
+            height: 1.5rem;
+            margin: 0.25rem 0;
             color: blue;
             font-size: 1rem;
             cursor: pointer;

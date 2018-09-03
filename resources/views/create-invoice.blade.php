@@ -18,10 +18,9 @@
         padding: 1.5rem 0;
     }
 </style>
-{{--todo--}}
 <div class="container">
     <h1 class="header">Create Invoice</h1>
-    <a class="back-button" href="{{ URL::previous() }}"><strong>Return To Previous Page</strong></a>
+    <a class="back-button" href="{{ route('invoices.index') }}"><strong>Return To Index</strong></a>
     <div class="invoice">
         <form class="create-invoice-form" method="POST" action="{{ route('invoices.store') }}">
             @csrf

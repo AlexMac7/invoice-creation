@@ -62,7 +62,7 @@
                             </button>
                         </form>
                         <form class="button-holder" method="POST">
-                            {{ csrf_field() }}
+                            @csrf
                             {{ method_field('DELETE') }}
                             <button type="submit" class="delete-button" formaction="{{ route('invoices.delete', $invoice) }}">
                                 Delete Invoice
