@@ -21,7 +21,6 @@
         width: 80%;
     }
 </style>
-{{--todo--}}
 <div class="container">
     <h1 class="header">Invoice #{{$invoice->invoice_number}}</h1>
     <a class="back-button" href="{{ route('invoices.index') }}"><strong>Return To Index</strong></a>

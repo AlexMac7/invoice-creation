@@ -6,7 +6,6 @@
         padding: 2rem 0;
     }
 </style>
-{{--todo--}}
 <div>
     <label for="payment-select">Add Payment Method(s)</label>
     <select id="payment-select" onchange="addPayment(this.value)" required>

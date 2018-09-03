@@ -17,10 +17,6 @@
     </style>
     <div class="container">
         <h1 class="header">Edit Invoice</h1>
-        <form class="button-holder" method="POST">
-            @csrf
-            {{ method_field('DELETE') }}
-        </form>
         <a class="back-button" href="{{ route('invoices.index') }}"><strong>Return To Index</strong></a>
         <div class="invoice">
             <h3>General Info</h3>
@@ -35,9 +31,13 @@
                         Update General Info
                     </button>
                 </div>
-                <button type="submit" class="delete-button" formaction="{{ route('invoices.delete', $invoice) }}">
-                    Delete Invoice
-                </button>
+                <form class="button-holder" method="POST">
+                    @csrf
+                    {{ method_field('DELETE') }}
+                    <button type="submit" class="delete-button" formaction="{{ route('invoices.delete', $invoice) }}">
+                        Delete Invoice
+                    </button>
+                </form>
             </form>
         </div>
         <div class="order-items">
