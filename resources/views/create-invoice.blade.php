@@ -1,5 +1,6 @@
 @extends('layouts.main')
 
+@section('main')
 <!-- Styles -->
 <style>
     .container {
@@ -13,6 +14,9 @@
     .invoice-section {
         padding: 20px 0;
     }
+    .submit-invoice {
+        padding: 1.5rem 0;
+    }
 </style>
 {{--todo--}}
 <div class="container">
@@ -23,10 +27,10 @@
             <div class="invoice-section">
                 @include('partials.general-info-rows')
             </div>
-            <div class="invoice-section">
+            <div class="product-section">
                 @include('partials.product-info-rows')
             </div>
-            <div class="invoice-section">
+            <div class="payment-section">
                 @include('partials.payment-info-rows')
             </div>
             <div class="submit-invoice">
@@ -37,4 +41,4 @@
         </form>
     </div>
 </div>
-
+@endsection

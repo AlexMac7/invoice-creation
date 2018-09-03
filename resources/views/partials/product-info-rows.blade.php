@@ -2,60 +2,73 @@
     .product-info-rows > div {
         padding: .25rem 0;
     }
+    #products {
+        padding: 2rem 0;
+    }
 </style>
-<div class="product-info-rows">
+<div>
     <label for="product-select">Add Product(s)</label>
-    <select id="product-select">
+    <select id="product-select" onchange="addProduct(this.value)" required>
         Add Product(s)
+        <option value="" disabled selected style="display:none;">Select Product(s) To Add</option>
         @foreach($products as $product)
-            <option value={{$product->name}}>{{$product->name}}</option>
+            <option value="{{$product->id}}">{{$product->name}}</option>
         @endforeach
     </select>
-
-    {{--Todo add product items--}}
-    {{--Need to select the item, have it added, display the set price + tax and quanitty of one. These fields need the option to be customized as well--}}
-
-    <div class="product-name-row">
-        <label for="product-name">{{ __('Product Name') }}</label>
-        <input id="product-name" type="text" class="form-control" name="product_name" value="{{ old('product_name') }}" required autofocus>
-
-        @if ($errors->has('product_name'))
-            <div class="invalid-feedback">
-                <strong>{{ $errors->first('product_name') }}</strong>
-            </div>
-        @endif
-    </div>
-    <div class="quantity-row">
-        <label for="quantity">{{ __('Quantity*') }}</label>
-        <input id="quantity" type="text" class="form-control" name="quantity" value="{{ old('quantity') }}" required autofocus>
-
-        @if ($errors->has('quantity'))
-            <div class="invalid-feedback">
-                <strong>{{ $errors->first('quantity') }}</strong>
-            </div>
-        @endif
-    </div>
-    <div class="price-row">
-        <label for="price">{{ __('Price*') }}</label>
-        <input id="price" type="date" class="form-control" name="price" value="{{ old('price') }}" required autofocus>
-
-        @if ($errors->has('price'))
-            <div class="invalid-feedback">
-                <strong>{{ $errors->first('price') }}</strong>
-            </div>
-        @endif
-    </div>
-    <div class="tax-row">
-        <label for="tax">{{ __('Tax*') }}</label>
-        <input id="tax" type="number" class="form-control" name="tax" value="{{ old('tax') }}" required autofocus>
-
-        @if ($errors->has('tax'))
-            <div class="invalid-feedback">
-                <strong>{{ $errors->first('tax') }}</strong>
-            </div>
-        @endif
-    </div>
 </div>
-<script>
-    //todo
+<div id="products">
+
+</div>
+<script type='text/javascript'>
+    function addProduct(productId) {
+        const productNameRowClassName = 'product-name-row-'.concat(productId);
+
+        if (document.getElementsByClassName(productNameRowClassName).length != 0) {
+            return; //if the product has been added already don't add it again
+        }
+
+        const allProducts = {!! $products !!};
+        const product = allProducts.find(function (obj) { return obj.id == productId; });
+
+        const container = document.getElementById("products");
+        const productNameRow = document.createElement("div");
+        productNameRow.className = productNameRowClassName;
+
+        productNameRow.innerHTML =
+            '<label for="product-name">Product Name</label>\
+            <input id="product-name" type="text" class="form-control" name="product_name[]" readonly="readonly"/>\
+            <label for="quantity">Quantity*</label>\
+            <input id="quantity" type="text" class="form-control" name="quantity[]" />\
+            <label for="price">Price* ($)</label>\
+            <span><input id="price" type="number" step="0.01" class="form-control" name="price[]" /></span>\
+            <label for="tax">Tax*</label>\
+            <input id="tax" type="number" class="form-control" name="tax[]" readonly="readonly"/>\
+            <input id="product-id" type="hidden" class="form-control" name="product_id[]" />\
+            <button id="remove-product" value="-" onclick="removeProductRow(this)">Remove Product</button>';
+
+        container.appendChild(productNameRow);
+
+        const productNameId = 'product-name-'.concat(productId);
+        const quantityId = 'quantity-'.concat(productId);
+        const priceId = 'price-'.concat(productId);
+        const taxId = 'tax-'.concat(productId);
+        const productIdId = 'product-id-'.concat(productId);
+
+        document.getElementById("product-name").id = productNameId;
+        document.getElementById("quantity").id = quantityId;
+        document.getElementById("price").id = priceId;
+        document.getElementById("tax").id = taxId;
+        document.getElementById("product-id").id = productIdId;
+
+        document.getElementById(productNameId).value = product.name;
+        document.getElementById(quantityId).value = 1;
+        document.getElementById(priceId).value = product.price / 100;
+        document.getElementById(taxId).value = 10;
+        document.getElementById(productIdId).value = product.id;
+        document.getElementById("remove-product").value = product.id;
+    }
+
+    function removeProductRow(input) {
+        document.getElementById("products").removeChild(input.parentNode);
+    }
 </script>

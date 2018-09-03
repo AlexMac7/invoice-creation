@@ -26,7 +26,7 @@
     </div>
     <div class="invoice-date-row">
         <label for="invoice-date">{{ __('Invoice Date*') }}</label>
-        <input id="invoice-date" type="date" class="form-control" name="invoice_date" value="{{ old('invoice_date') }}" required autofocus>
+        <input id="invoice-date" type="date" class="form-control" name="invoice_date" value="{{ now()->toDateString() }}" required autofocus>
 
         @if ($errors->has('invoice_date'))
             <div class="invalid-feedback">
@@ -36,7 +36,7 @@
     </div>
     <div class="invoice-number-row">
         <label for="invoice-number">{{ __('Invoice Number*') }}</label>
-        <input id="invoice-number" type="number" class="form-control" name="invoice_number" value="{{ old('invoice_number') }}" required autofocus>
+        <input id="invoice-number" type="number" class="form-control" name="invoice_number" value="{{ old('invoice_number') }}" min="0" autofocus>
 
         @if ($errors->has('invoice_number'))
             <div class="invalid-feedback">
@@ -46,7 +46,7 @@
     </div>
     <div class="due-date-row">
         <label for="due-date">{{ __('Invoice Due Date*') }}</label>
-        <input id="due-date" type="date" class="form-control" name="due_date" value="{{ old('due_date') }}" required autofocus>
+        <input id="due-date" type="date" class="form-control" name="due_date" value="{{ now()->addDays(13)->toDateString() }}" required autofocus>
 
         @if ($errors->has('due_date'))
             <div class="invalid-feedback">

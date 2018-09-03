@@ -1,4 +1,6 @@
 @extends('layouts.main')
+
+@section('main')
 <style>
     .container {
         margin: 15px 30px;
@@ -68,4 +70,4 @@
     {{--c. The third section will contain the totals calculated from the invoice line--}}
     {{--items.--}}
 </div>
-
+@endsection
