@@ -40,6 +40,10 @@
             cursor: pointer;
             border-radius: .5rem;
         }
+        .back-button {
+            text-decoration: none;
+            color: green;
+        }
         .form-control {
             border-radius: .25rem;
             box-shadow: inset 0 1px 1px 0 hsla(0, 0%, 0%, .08);

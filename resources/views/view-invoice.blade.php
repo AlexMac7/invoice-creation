@@ -16,10 +16,15 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
     }
+    .order-items-list, .payments-list {
+        border-top: blue 5px solid;
+        width: 80%;
+    }
 </style>
 {{--todo--}}
 <div class="container">
-    <h1 class="header">Invoice #{{$invoice->id}}</h1>
+    <h1 class="header">Invoice #{{$invoice->invoice_number}}</h1>
+    <a class="back-button" href="{{ URL::previous() }}"><strong>Return To Previous Page</strong></a>
     <div class="invoice">
         <div class="customer-info">
             <p>Invoice Id #{{$invoice->id}}</p>
@@ -35,17 +40,21 @@
             <div class="product-info">
                 <h4>Products</h4>
                 @foreach($orderItems as $item)
-                    <p>Product Name: {{$item->product_name}}</p>
-                    <p>Quantity: {{$item->quantity}}</p>
-                    <p>Price: {{$item->formatted_price}}</p>
-                    <p>Tax: {{$item->formatted_tax}}</p>
+                    <div class="order-items-list">
+                        <p>Product Name: {{$item->product_name}}</p>
+                        <p>Quantity: {{$item->quantity}}</p>
+                        <p>Price: {{$item->formatted_price}}</p>
+                        <p>Tax: {{$item->formatted_tax}}</p>
+                    </div>
                 @endforeach
             </div>
             <div class="payment-info">
                 <h4>Payments</h4>
                 @foreach($payments as $payment)
-                    <p>Payment Type: {{$payment->type}}</p>
-                    <p>Amount: {{$payment->formatted_amount}}</p>
+                    <div class="payments-list">
+                        <p>Payment Type: {{$payment->type}}</p>
+                        <p>Amount: {{$payment->formatted_amount}}</p>
+                    </div>
                 @endforeach
             </div>
             {{--
