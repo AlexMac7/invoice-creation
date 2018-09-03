@@ -13,15 +13,9 @@ class Product extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'invoice_id' => 'integer',
         'price' => 'integer',
         'name' => 'string',
     ];
-
-    public function invoice()
-    {
-        return $this->belongsTo(Invoice::class);
-    }
 
     public function orderItems()
     {

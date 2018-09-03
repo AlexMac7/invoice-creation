@@ -32,11 +32,6 @@ class Invoice extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function products()
-    {
-        return $this->hasMany(Product::class);
-    }
-
     public function payments()
     {
         return $this->hasMany(Payment::class);

@@ -16,8 +16,8 @@ class OrderItem extends Model
         'invoice_id' => 'integer',
         'product_id' => 'integer',
         'price' => 'integer',
-        'quantity' => 'string',
-        'tax' => 'string',
+        'quantity' => 'integer',
+        'tax' => 'integer',
     ];
 
     public function product()

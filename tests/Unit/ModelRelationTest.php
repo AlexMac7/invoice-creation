@@ -30,16 +30,11 @@ class ModelRelationTest extends TestCase
         $payment = factory(Payment::class)->create([
             'invoice_id' => $invoice->id,
         ]);
-        $product->update([
-            'invoice_id' => $invoice->id,
-        ]);
 
         $this->assertEquals($customer->name, $invoice->customer->name);
         $this->assertEquals($invoice->invoice_number, $customer->invoices()->first()->invoice_number);
         $this->assertEquals($invoice->invoice_number, $payment->invoice->invoice_number);
-        $this->assertEquals($invoice->invoice_number, $product->invoice->invoice_number);
         $this->assertEquals($payment->type, $invoice->payments()->first()->type);
-        $this->assertEquals($product->name, $invoice->products()->first()->name);
         $this->assertEquals($product->name, $orderItem->product->name);
         $this->assertEquals($invoice->id, $orderItem->invoice->id);
         $this->assertEquals($orderItem->id, $product->orderItems()->first()->id);
