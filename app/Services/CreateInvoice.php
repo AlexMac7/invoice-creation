@@ -27,7 +27,7 @@ class CreateInvoice
         $subtotal = $this->determineSubtotal($request->input('price'), $request->input('quantity'));
         $total = $subtotal + (int) ($subtotal * ($tax / 100));
 
-        $isPaid = ($total === array_sum($amountsPaid)) ? true : false;
+        $isPaid = ($total === (array_sum($amountsPaid) * 100)) ? true : false;
         $status = $isPaid ? 'paid_in_full' : 'payment_due';
         $paidAt = $isPaid ? now()->toDateString() : null;
 
@@ -56,7 +56,7 @@ class CreateInvoice
             $subtotal += $prices[$i] * $quantities[$i];
         }
 
-        return $subtotal;
+        return $subtotal * 100;
     }
 
     protected function createOrderItems($productNames, $quantities, $price, $tax, $productIds, $invoiceId)
@@ -66,7 +66,7 @@ class CreateInvoice
                 'product_name' => $productNames[$i],
                 'invoice_id' => $invoiceId,
                 'product_id' => $productIds[$i],
-                'price' => $price[$i],
+                'price' => $price[$i] * 100,
                 'quantity' => $quantities[$i],
                 'tax' => $tax,
             ]);
@@ -78,7 +78,7 @@ class CreateInvoice
         for ($i = 0; $i < count($paymentTypes); $i++) {
             Payment::create([
                 'invoice_id' => $invoiceId,
-                'amount' => $amountsPaid[$i],
+                'amount' => $amountsPaid[$i] * 100,
                 'type' => $paymentTypes[$i],
             ]);
         }
