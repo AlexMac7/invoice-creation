@@ -34,23 +34,30 @@ class InvoiceController extends Controller
             'customer_name' => ['required', 'string', 'min:2'],
             'customer_address' => ['required', 'string'],
             'invoice_date' => ['required', 'date'],
-            'invoice_number' => ['required', 'numeric'],
+            'invoice_number' => ['required', 'numeric', 'unique:invoices,invoice_number'],
             'due_date' => ['required', 'date'],
             'note' => ['required', 'string'],
 //            //second part
+            'product_name' => ['required'],
             'product_name.*' => ['required', 'string'],
+            'quantity' => ['required'],
             'quantity.*' => ['required', 'numeric'],
+            'price' => ['required'],
             'price.*' => ['required', 'numeric', 'min:1'],
+            'tax' => ['required'],
             'tax.*' => ['required', 'numeric', 'min:0', 'max:20'],
+            'product_id' => ['required'],
             'product_id.*' => ['required', 'exists:products,id'],
 //            //third part
-            'payment_type.*' => ['required', 'string'],
+            'payment_type' => ['required'],
+            'payment_type.*' => ['required', 'string', 'in:cash,credit,debit,e-transfer'],
+            'amount' => ['required'],
             'amount.*' => ['required', 'numeric'],
         ]);
 
         $createInvoice->create($request);
 
-        return redirect('main');
+        return redirect('invoices');
     }
 
     public function show(Invoice $invoice)

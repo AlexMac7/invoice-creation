@@ -17,7 +17,7 @@ class CreatePaymentsTable extends Migration
             $table->increments('id');
             $table->integer('amount')->unsigned();
             $table->integer('invoice_id')->unsigned();
-            $table->enum('type', ['cash', 'credit', 'debit', 'e_transfer'])->default('credit');
+            $table->enum('type', ['cash', 'credit', 'debit', 'e-transfer'])->default('credit');
             $table->timestamps();
         });
 

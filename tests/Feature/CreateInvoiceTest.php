@@ -70,7 +70,7 @@ class CreateInvoiceTest extends TestCase
             'payment_type' => [
                 0 => 'credit',
                 1 => 'cash',
-                2 => 'e_transfer',
+                2 => 'e-transfer',
             ],
             'amount' => [
                 0 => 600,
@@ -134,7 +134,7 @@ class CreateInvoiceTest extends TestCase
         $this->assertDatabaseHas('payments', [
             'invoice_id' => $invoice->id,
             'amount' => 3960,
-            'type' => 'e_transfer',
+            'type' => 'e-transfer',
         ]);
     }
 

@@ -15,7 +15,7 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('invoice_number')->unsigned()->index();
+            $table->integer('invoice_number')->unique()->unsigned()->index();
             $table->integer('customer_id')->unsigned()->index();
             $table->integer('total');
             $table->integer('subtotal');
