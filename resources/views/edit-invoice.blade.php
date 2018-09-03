@@ -32,7 +32,7 @@
                 </div>
                 <div class="submit-invoice">
                     <button type="submit" class="edit-invoice">
-                        Edit General Info
+                        Update General Info
                     </button>
                 </div>
                 <button type="submit" class="delete-button" formaction="{{ route('invoices.delete', $invoice) }}">

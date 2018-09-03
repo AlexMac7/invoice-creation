@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('main')
-<!-- Styles -->
 <style>
     .container {
         margin: 15px 30px;

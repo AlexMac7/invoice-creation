@@ -22,17 +22,20 @@
                 <p>Tax: {{$item->formatted_tax}}</p>
             </div>
             <div class="order-item-actions">
-                <form class="button-holder" method="POST">
-                    @csrf
-                    {{ method_field('PATCH') }}
-                    <button type="submit" class="patch-button" formaction="{{ route('invoices.delete', $invoice) }}">
+                <form class="button-holder" method="GET">
+                    <button type="submit" class="view-button" formaction="{{ route('order-items.create', $invoice, $item) }}">
+                        Create New Order Item For Invoice
+                    </button>
+                </form>
+                <form class="button-holder" method="GET">
+                    <button type="submit" class="create-button" formaction="{{ route('order-items.edit', $item) }}">
                         Edit Order Item For Invoice
                     </button>
                 </form>
                 <form class="button-holder" method="POST">
                     @csrf
                     {{ method_field('DELETE') }}
-                    <button type="submit" class="delete-button" formaction="{{ route('invoices.delete', $invoice) }}">
+                    <button type="submit" class="delete-button" formaction="{{ route('order-items.delete', $item) }}">
                         Delete Order Item From Invoice
                     </button>
                 </form>
