@@ -4,10 +4,11 @@ namespace App;
 
 use App\Traits\FormatMoneyAndTax;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class OrderItem extends Model
 {
-    use FormatMoneyAndTax;
+    use SoftDeletes, FormatMoneyAndTax;
 
     protected $guarded = [];
 

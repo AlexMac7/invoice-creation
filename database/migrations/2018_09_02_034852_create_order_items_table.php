@@ -22,6 +22,7 @@ class CreateOrderItemsTable extends Migration
             $table->integer('quantity')->default(1)->unsigned();
             $table->integer('tax')->unsigned();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::table('order_items', function ($table) {

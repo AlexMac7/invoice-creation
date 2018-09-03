@@ -68,7 +68,7 @@ class InvoiceController extends Controller
 
         return view('view-invoice', [
             'invoice' => $invoice,
-            'orderItems' => $orderItems,
+            'orderItems' =>  $orderItems,
             'payments' => $payments,
         ]);
     }
@@ -90,7 +90,7 @@ class InvoiceController extends Controller
     public function update(Request $request, Invoice $invoice)
     {
         $validatedFields = $request->validate([
-//            'customer_name' => ['required', 'string', 'min:2'], //todo
+//            'customer_name' => ['required', 'string', 'min:2'],
 //            'customer_address' => ['required', 'string'],
             'invoice_date' => ['required', 'date'],
             'invoice_number' => ['required', 'numeric', 'unique:invoices,invoice_number'],
