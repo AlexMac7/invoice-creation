@@ -51,7 +51,7 @@ class OrderItemController extends Controller
 
     public function update(Request $request, OrderItem $orderItem)
     {
-        $validatedFields = $request->validate([
+        $request->validate([
             'product_name' => ['nullable', 'string'],
             'quantity' => ['nullable', 'numeric'],
             'price' => ['nullable', 'numeric', 'min:1'],
@@ -61,7 +61,12 @@ class OrderItemController extends Controller
         $invoice = $orderItem->invoice;
         //todo, recalculate invoice totals
 
-        $orderItem->update($validatedFields);
+        $orderItem->update([
+            'product_name' => $request->input('product_name'),
+            'quantity' => $request->input('quantity'),
+            'price' => ($request->input('price') * 100),
+            'tax' => $request->input('tax'),
+        ]);
 
         return redirect()->route('invoices.edit', ['invoice' => $invoice]);
     }

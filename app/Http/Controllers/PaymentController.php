@@ -41,7 +41,7 @@ class PaymentController extends Controller
 
     public function update(Request $request, Payment $payment)
     {
-        $validatedFields = $request->validate([
+        $request->validate([
             'type' => ['nullable', 'string', 'in:cash,credit,debit,e-transfer'],
             'amount' => ['nullable', 'numeric'],
         ]);
@@ -49,7 +49,10 @@ class PaymentController extends Controller
         $invoice = $payment->invoice;
         //todo, recalculate invoice totals
 
-        $payment->update($validatedFields);
+        $payment->update([
+            'type' => $request->input('type'),
+            'amount' => ($request->input('amount') * 100),
+        ]);
 
         return redirect()->route('invoices.edit', ['invoice' => $invoice]);
     }

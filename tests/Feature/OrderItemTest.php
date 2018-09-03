@@ -26,26 +26,29 @@ class OrderItemTest extends TestCase
         $invoice = factory(Invoice::class)->create([
             'customer_id' => $customer->id,
         ]);
-        $orderItemOne = factory(OrderItem::class)->create([
-            'invoice_id' => $invoice->id,
-            'product_id' => $product->id,
-            'product_name' => 'Old Name',
-            'quantity' => 1,
-            'price' => 200,
-            'tax' => 10,
-        ]);
         $data = [
-            'product_name' => 'New Name',
-            'quantity' => 2,
-            'price' => 400,
-            'tax' => 5,
+            'product_name' => [
+                0 => 'New Name',
+            ],
+            'quantity' => [
+                0 => 2,
+            ],
+            'price' => [
+                0 => 4,
+            ],
+            'tax' => [
+                0 => 5,
+            ],
+            'product_id' => [
+                0 => $product->id,
+            ],
+            'invoice_id' => $invoice->id,
         ];
 
-        $response = $this->patch("/order-items/$orderItem->id", $data);
+        $response = $this->post("/order-items", $data);
         $response->assertStatus(302);
 
-        $this->assertDatabaseHas('order_items', [
-            'id' => $orderItem->id,
+        $this->assertDatabaseHas('order_items', [ //todo
             'product_name' => 'New Name',
             'invoice_id' => $invoice->id,
             'product_id' => $product->id,
@@ -79,7 +82,7 @@ class OrderItemTest extends TestCase
         $data = [
             'product_name' => 'New Name',
             'quantity' => 2,
-            'price' => 400,
+            'price' => 4,
             'tax' => 5,
         ];
 

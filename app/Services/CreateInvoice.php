@@ -24,10 +24,10 @@ class CreateInvoice
         $paymentTypes = $request->input('payment_type');
         $amountsPaid = $request->input('amount');
 
-        $subtotal = $this->determineSubtotal($request->input('price'), $request->input('quantity'));
-        $total = $subtotal + (int) ($subtotal * ($tax / 100));
+        $subtotal = (int) $this->determineSubtotal($request->input('price'), $request->input('quantity'));
+        $total = $subtotal + (int) ((int) $subtotal * ($tax / 100));
 
-        $isPaid = ($total === (array_sum($amountsPaid) * 100)) ? true : false;
+        $isPaid = ($total === ((int) (array_sum($amountsPaid) * 100))) ? true : false;
         $status = $isPaid ? 'paid_in_full' : 'payment_due';
         $paidAt = $isPaid ? now()->toDateString() : null;
 

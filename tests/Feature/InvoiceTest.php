@@ -52,9 +52,9 @@ class InvoiceTest extends TestCase
                 2 => 6,
             ],
             'price' => [
-                0 => 350,
-                1 => 400,
-                2 => 600,
+                0 => 3.5,
+                1 => 4,
+                2 => 6,
             ],
             'tax' => [
                 0 => 10,
@@ -73,9 +73,9 @@ class InvoiceTest extends TestCase
                 2 => 'e-transfer',
             ],
             'amount' => [
-                0 => 600,
-                1 => 510,
-                2 => 3960,
+                0 => 6,
+                1 => 5.1,
+                2 => 39.6,
             ],
         ];
 
@@ -168,8 +168,8 @@ class InvoiceTest extends TestCase
                 1 => 1,
             ],
             'price' => [
-                0 => 350,
-                1 => 400,
+                0 => 3.5,
+                1 => 4,
             ],
             'tax' => [
                 0 => 10,
@@ -185,8 +185,8 @@ class InvoiceTest extends TestCase
                 1 => 'cash',
             ],
             'amount' => [
-                0 => 600,
-                1 => 610,
+                0 => 6,
+                1 => 6.1,
             ],
         ];
 
