@@ -47,12 +47,25 @@ class PaymentController extends Controller
             'amount' => ['nullable', 'numeric'],
         ]);
 
-        $invoice = $payment->invoice;
-        //todo, recalculate invoice totals
+        $amountUpdated = ! empty($request->input('amount'));
+        $amount = $amountUpdated ? ($request->input('amount') * 100) : $payment->amount;
+
+        if ($amountUpdated) {
+            $invoice = $payment->invoice;
+            $previouslyPaid = $invoice->payments()->where('id', '!=', $payment->id)->sum('amount');
+
+            $isPaid = ($invoice->total <= ((int) $previouslyPaid + $amount)) ? true : false;
+            $status = $isPaid ? 'paid_in_full' : 'payment_due';
+
+            $invoice->update([
+                'is_paid' => $isPaid,
+                'status' => $status,
+            ]);
+        }
 
         $payment->update([
             'type' => $request->input('type'),
-            'amount' => ($request->input('amount') * 100),
+            'amount' => $amount,
         ]);
 
         return redirect()->route('invoices.edit', ['invoice' => $invoice]);
@@ -60,6 +73,7 @@ class PaymentController extends Controller
 
     public function delete(Payment $payment)
     {
+        //todo, recalculate invoice
         $invoice = $payment->invoice;
         $payment->delete();
 

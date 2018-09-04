@@ -35,20 +35,3 @@
         @endforeach
 </div>
 
-{{--TODO--}}
-{{--<div class="item-name-row">--}}
-{{--<label for="item-name">Product Name</label>--}}
-{{--<input id="item-name" type="text" class="form-control" name="product_name[]" readonly="readonly" value={{$item->product_name}} />--}}
-{{--</div>--}}
-{{--<div class="item-quantity-row">--}}
-{{--<label for="item-quantity">Quantity*</label>--}}
-{{--<input id="item-quantity" type="number" class="form-control" name="quantity[]" value={{$item->quantity}} />--}}
-{{--</div>--}}
-{{--<div class="item-price-row">--}}
-{{--<label for="item-price">Price* ($)</label>--}}
-{{--<input id="item-price" type="number" step="0.01" class="form-control" name="price[]" value={{$item->price / 100}} />--}}
-{{--</div>--}}
-{{--<div class="item-tax-row">--}}
-{{--<label for="item-tax">Tax*</label>--}}
-{{--<input id="item-tax" type="number" class="form-control" name="tax[]" value={{$item->tax}} />--}}
-{{--</div>--}}

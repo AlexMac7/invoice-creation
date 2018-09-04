@@ -76,7 +76,7 @@ class PaymentTest extends TestCase
     }
 
     /** @test */
-    public function can_update_payment()
+    public function can_update_and_increase_payment()
     {
         $product = factory(Product::class)->create([
             'price' => 350,
@@ -87,6 +87,11 @@ class PaymentTest extends TestCase
         ]);
         $invoice = factory(Invoice::class)->create([
             'customer_id' => $customer->id,
+            'total' => 210,
+            'subtotal' => 200,
+            'tax' => 10,
+            'status' => 'payment_due',
+            'is_paid' => false,
         ]);
         $orderItem = factory(OrderItem::class)->create([
             'invoice_id' => $invoice->id,
@@ -98,7 +103,7 @@ class PaymentTest extends TestCase
         ]);
         $payment = factory(Payment::class)->create([
             'invoice_id' => $invoice->id,
-            'amount' => 1.5,
+            'amount' => 150,
             'type' => 'e-transfer',
         ]);
         $data = [
@@ -109,11 +114,68 @@ class PaymentTest extends TestCase
         $response = $this->patch("/payments/$payment->id", $data);
         $response->assertStatus(302);
 
+        $this->assertDatabaseHas('invoices', [
+            'id' => $invoice->id,
+            'status' => 'paid_in_full',
+            'is_paid' => true,
+        ]);
         $this->assertDatabaseHas('payments', [
             'id' => $payment->id,
             'invoice_id' => $invoice->id,
             'amount' => 210,
             'type' => 'cash',
+        ]);
+    }
+
+    /** @test */
+    public function can_update_and_decrease_payment()
+    {
+        $product = factory(Product::class)->create([
+            'price' => 350,
+            'name' => 'Sycle Classic',
+        ]);
+        $customer = factory(Customer::class)->create([
+            'name' => 'Test Customer',
+        ]);
+        $invoice = factory(Invoice::class)->create([
+            'customer_id' => $customer->id,
+            'total' => 210,
+            'subtotal' => 200,
+            'tax' => 10,
+            'status' => 'paid_in_full',
+            'is_paid' => true,
+        ]);
+        $orderItem = factory(OrderItem::class)->create([
+            'invoice_id' => $invoice->id,
+            'product_id' => $product->id,
+            'product_name' => 'Old Name',
+            'quantity' => 1,
+            'price' => 200,
+            'tax' => 10,
+        ]);
+        $payment = factory(Payment::class)->create([
+            'invoice_id' => $invoice->id,
+            'amount' => 210,
+            'type' => 'e-transfer',
+        ]);
+        $data = [
+            'amount' => 1,
+            'type' => 'debit',
+        ];
+
+        $response = $this->patch("/payments/$payment->id", $data);
+        $response->assertStatus(302);
+
+        $this->assertDatabaseHas('invoices', [
+            'id' => $invoice->id,
+            'status' => 'payment_due',
+            'is_paid' => false,
+        ]);
+        $this->assertDatabaseHas('payments', [
+            'id' => $payment->id,
+            'invoice_id' => $invoice->id,
+            'amount' => 100,
+            'type' => 'debit',
         ]);
     }
 }

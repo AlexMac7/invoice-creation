@@ -60,13 +60,40 @@ class OrderItemController extends Controller
         ]);
 
         $invoice = $orderItem->invoice;
-        //todo, recalculate invoice totals
+        $quantity = ! empty($request->input('quantity')) ? $request->input('quantity') : $orderItem->quantity;
+        $price = ! empty($request->input('price')) ? ($request->input('price') * 100) : $orderItem->price;
+        $tax = ! empty($request->input('tax')) ? $request->input('tax') : $orderItem->tax;
+
+        if (! empty($request->only('quantity', 'price', 'tax'))) {
+            $itemSubtotal = (int) ($price * $quantity);
+            $itemTotal = $itemSubtotal + (int) ($itemSubtotal * ($tax / 100));
+
+            $previousItemSubtotal = $orderItem->price;
+            $previousItemTotal = (int) ($orderItem->price + ($orderItem->price * ($tax / 100)));
+            $previousInvoiceSubtotal = $invoice->subtotal;
+            $previousInvoiceTotal = $invoice->total;
+
+            $newSubtotal = ($previousInvoiceSubtotal - $previousItemSubtotal) + $itemSubtotal;
+            $newTotal = ($previousInvoiceTotal - $previousItemTotal) + $itemTotal;
+
+            //todo, calculate isPaid and status based on payments made so far
+            $isPaid = ($newTotal <= ((int) $previousInvoiceTotal)) ? true : false;
+            $status = $isPaid ? 'paid_in_full' : 'payment_due';
+
+            $invoice->update([
+                'total' => $newTotal,
+                'subtotal' => $newSubtotal,
+                'tax' => $tax,
+                'status' => $status,
+                'is_paid' => $isPaid,
+            ]);
+        }
 
         $orderItem->update([
             'product_name' => $request->input('product_name'),
-            'quantity' => $request->input('quantity'),
-            'price' => ($request->input('price') * 100),
-            'tax' => $request->input('tax'),
+            'quantity' => $quantity,
+            'price' => $price,
+            'tax' => $tax,
         ]);
 
         return redirect()->route('invoices.edit', ['invoice' => $invoice]);
@@ -74,6 +101,7 @@ class OrderItemController extends Controller
 
     public function delete(OrderItem $orderItem)
     {
+        //todo, recalculate invoice
         $invoice = $orderItem->invoice;
         $orderItem->delete();
 
