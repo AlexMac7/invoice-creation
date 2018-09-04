@@ -34,7 +34,7 @@
             </div>
             <div class="submit-invoice">
                 <button type="submit" class="create-invoice">
-                    {{ __('Create') }}
+                    Create Invoice
                 </button>
             </div>
         </form>
