@@ -58,6 +58,9 @@
             width: 300px;
             font-size: 1rem;
         }
+        h3, p {
+            margin: .5rem 0;
+        }
     </style>
 </head>
 <body>

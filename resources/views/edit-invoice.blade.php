@@ -16,10 +16,11 @@
         }
     </style>
     <div class="container">
-        <h1 class="header">Edit Invoice</h1>
+        <h1 class="header">Edit Invoice ({{$invoice->formatted_status}})</h1>
         <a class="back-button" href="{{ route('invoices.index') }}"><strong>Return To Index</strong></a>
         <div class="invoice">
             <h3>General Info</h3>
+            <p>Total: {{$invoice->formatted_total}}</p>
             <form class="edit-invoice-form" method="POST" action="{{ route('invoices.update', $invoice) }}">
                 @csrf
                 {{ method_field('PATCH') }}
@@ -31,13 +32,13 @@
                         Update General Info
                     </button>
                 </div>
-                <form class="button-holder" method="POST">
-                    @csrf
-                    {{ method_field('DELETE') }}
-                    <button type="submit" class="delete-button" formaction="{{ route('invoices.delete', $invoice) }}">
-                        Delete Invoice
-                    </button>
-                </form>
+            </form>
+            <form class="button-holder" method="POST">
+                @csrf
+                {{ method_field('DELETE') }}
+                <button type="submit" class="delete-button" formaction="{{ route('invoices.delete', $invoice) }}">
+                    Delete Invoice
+                </button>
             </form>
         </div>
         <div class="order-items">

@@ -23,11 +23,6 @@
             </div>
             <div class="order-item-actions">
                 <form class="button-holder" method="GET">
-                    <button type="submit" class="view-button" formaction="{{ route('order-items.create', $invoice, $item) }}">
-                        Create New Order Item For Invoice
-                    </button>
-                </form>
-                <form class="button-holder" method="GET">
                     <button type="submit" class="create-button" formaction="{{ route('order-items.edit', $item) }}">
                         Edit Order Item For Invoice
                     </button>
@@ -42,4 +37,9 @@
             </div>
         @endforeach
     @endif
+        <form class="button-holder" method="GET">
+            <button type="submit" class="view-button" formaction="{{ route('order-items.create', $invoice, $item) }}">
+                Create New Order Item For Invoice
+            </button>
+        </form>
 </div>
