@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Invoice;
 use App\OrderItem;
 use App\Product;
+use App\Services\CreateOrUpdateInvoice;
 use Illuminate\Http\Request;
 
 class OrderItemController extends Controller
@@ -19,7 +20,7 @@ class OrderItemController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, CreateOrUpdateInvoice $createOrUpdate)
     {
         $request->validate([
             'product_name' => ['required'],
@@ -35,9 +36,9 @@ class OrderItemController extends Controller
             'invoice_id' => ['required', 'exists:invoices,id'],
         ]);
 
-        $invoice = Invoice::firstOrFail($request->input('invoice_id'));
+        $invoice = Invoice::findOrFail($request->input('invoice_id'));
 
-        //todo create the order item(s) and adjust invoice
+        $createOrUpdate->forOrderItemsCreation($request, $invoice);
 
         return redirect()->route('invoices.edit', ['invoice' => $invoice]);
     }

@@ -23,7 +23,6 @@ class Invoice extends Model
         'is_paid' => 'boolean',
         'invoice_date' => 'date:Y-m-d',
         'due_date' => 'date:Y-m-d',
-        'paid_at' => 'date:Y-m-d',
     ];
 
     //Relationships

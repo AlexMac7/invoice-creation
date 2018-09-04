@@ -7,7 +7,7 @@ use App\Invoice;
 use App\OrderItem;
 use App\Payment;
 
-class CreateInvoice
+class CreateOrUpdateInvoice
 {
     public function create($request)
     {
@@ -24,12 +24,11 @@ class CreateInvoice
         $paymentTypes = $request->input('payment_type');
         $amountsPaid = $request->input('amount');
 
-        $subtotal = (int) $this->determineSubtotal($request->input('price'), $request->input('quantity'));
+        $subtotal = $this->determineSubtotal($request->input('price'), $request->input('quantity'));
         $total = $subtotal + (int) ((int) $subtotal * ($tax / 100));
 
-        $isPaid = ($total === ((int) (array_sum($amountsPaid) * 100))) ? true : false;
+        $isPaid = ($total <= ((int) (array_sum($amountsPaid) * 100))) ? true : false;
         $status = $isPaid ? 'paid_in_full' : 'payment_due';
-        $paidAt = $isPaid ? now()->toDateString() : null;
 
         $invoice = Invoice::create([
             'invoice_number' => $request->input('invoice_number'),
@@ -42,10 +41,49 @@ class CreateInvoice
             'is_paid' => $isPaid,
             'invoice_date' => $request->input('invoice_date'),
             'due_date' => $request->input('due_date'),
-            'paid_at' => $paidAt,
         ]);
 
         $this->createOrderItems($productNames, $quantities, $price, $tax, $productIds, $invoice->id);
+        $this->createPayments($paymentTypes, $amountsPaid, $invoice->id);
+    }
+
+    public function forOrderItemsCreation($request, $invoice)
+    {
+        $productNames = $request->input('product_name');
+        $quantities = $request->input('quantity');
+        $price = $request->input('price');
+        $tax = $request->input('tax')[0];
+        $productIds = $request->input('product_id');
+
+        $subtotal = $this->determineSubtotal($request->input('price'), $request->input('quantity'));
+        $total = $subtotal + (int) ((int) $subtotal * ($tax / 100));
+
+        $invoice->update([
+            'total' => $invoice->total + $total,
+            'subtotal' => $invoice->subtotal + $subtotal,
+            'tax' => $tax,
+            'status' => 'payment_due',
+            'is_paid' => false,
+        ]);
+
+        $this->createOrderItems($productNames, $quantities, $price, $tax, $productIds, $invoice->id);
+    }
+
+    public function forPaymentsCreation($request, $invoice)
+    {
+        $paymentTypes = $request->input('payment_type');
+        $amountsPaid = $request->input('amount');
+
+        $previouslyPaid = $invoice->payments()->sum('amount');
+
+        $isPaid = ($invoice->total <= ((int) $previouslyPaid + (array_sum($amountsPaid) * 100))) ? true : false;
+        $status = $isPaid ? 'paid_in_full' : 'payment_due';
+
+        $invoice->update([
+            'status' => $status,
+            'is_paid' => $isPaid,
+        ]);
+
         $this->createPayments($paymentTypes, $amountsPaid, $invoice->id);
     }
 
@@ -56,7 +94,7 @@ class CreateInvoice
             $subtotal += $prices[$i] * $quantities[$i];
         }
 
-        return $subtotal * 100;
+        return (int) $subtotal * 100;
     }
 
     protected function createOrderItems($productNames, $quantities, $price, $tax, $productIds, $invoiceId)

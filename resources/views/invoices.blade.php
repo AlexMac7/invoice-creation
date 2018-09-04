@@ -47,8 +47,6 @@
                         <p>Status: {{$invoice->formatted_status}}</p>
                         <p>Date Issued: {{$invoice->created_at->toFormattedDateString()}}</p>
                         <p>Invoice Payment Due Date: {{$invoice->due_date->toFormattedDateString()}}</p>
-                        <p>Invoice Paid Out
-                            On: {{! empty($invoice->paid_at) ? $invoice->paid_at->toFormattedDateString() : 'N/A'}}</p>
                     </div>
                     <div class="invoice-actions">
                         <form class="button-holder" method="GET">

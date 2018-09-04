@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Invoice;
 use App\Payment;
+use App\Services\CreateOrUpdateInvoice;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -15,7 +16,7 @@ class PaymentController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, CreateOrUpdateInvoice $createOrUpdate)
     {
         $request->validate([
             'payment_type' => ['required'],
@@ -25,9 +26,9 @@ class PaymentController extends Controller
             'invoice_id' => ['required', 'exists:invoices,id'],
         ]);
 
-        $invoice = Invoice::firstOrFail($request->input('invoice_id'));
+        $invoice = Invoice::findOrFail($request->input('invoice_id'));
 
-        //todo create the payment(s) and adjust invoice
+        $createOrUpdate->forPaymentsCreation($request, $invoice);
 
         return redirect()->route('invoices.edit', ['invoice' => $invoice]);
     }

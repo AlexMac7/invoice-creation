@@ -7,6 +7,7 @@ use App\Invoice;
 use App\OrderItem;
 use App\Payment;
 use App\Product;
+use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -25,7 +26,16 @@ class PaymentTest extends TestCase
             'name' => 'Test Customer',
         ]);
         $invoice = factory(Invoice::class)->create([
+            'invoice_number' => 13,
             'customer_id' => $customer->id,
+            'total' => 210,
+            'subtotal' => 200,
+            'tax' => 10,
+            'status' => 'payment_due',
+            'note' => 'Great customer!',
+            'is_paid' => false,
+            'invoice_date' => Carbon::parse('September 1 2018')->toDateString(),
+            'due_date' => Carbon::parse('September 30 2018')->toDateString(),
         ]);
         $orderItem = factory(OrderItem::class)->create([
             'invoice_id' => $invoice->id,
@@ -35,12 +45,17 @@ class PaymentTest extends TestCase
             'price' => 200,
             'tax' => 10,
         ]);
+        factory(Payment::class)->create([
+            'invoice_id' => $invoice->id,
+            'amount' => 110,
+            'type' => 'e-transfer',
+        ]);
         $data = [
             'payment_type' => [
                 0 => 'credit',
             ],
             'amount' => [
-                0 => 20,
+                0 => 1,
             ],
             'invoice_id' => $invoice->id,
         ];
@@ -48,14 +63,15 @@ class PaymentTest extends TestCase
         $response = $this->post("/payments", $data);
         $response->assertStatus(302);
 
-        $this->assertDatabaseHas('payments', [ //todo
-            'id' => $orderItem->id,
-            'product_name' => 'New Name',
+        $this->assertDatabaseHas('invoices', [
+            'id' => $invoice->id,
+            'status' => 'paid_in_full',
+            'is_paid' => true,
+        ]);
+        $this->assertDatabaseHas('payments', [
             'invoice_id' => $invoice->id,
-            'product_id' => $product->id,
-            'price' => 400,
-            'quantity' => 2,
-            'tax' => 5,
+            'amount' => 100,
+            'type' => 'credit',
         ]);
     }
 

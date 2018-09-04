@@ -95,7 +95,6 @@ class InvoiceTest extends TestCase
             'is_paid' => false,
             'invoice_date' => Carbon::parse('September 1 2018')->toDateString(),
             'due_date' => Carbon::parse('September 30 2018')->toDateString(),
-            'paid_at' => null,
         ]);
         $this->assertDatabaseHas('order_items', [
             'product_name' => $product1->name,
@@ -210,7 +209,6 @@ class InvoiceTest extends TestCase
             'is_paid' => true,
             'invoice_date' => Carbon::parse('September 1 2018')->toDateString(),
             'due_date' => Carbon::parse('September 30 2018')->toDateString(),
-            'paid_at' => now()->toDateString(),
         ]);
         $this->assertDatabaseHas('order_items', [
             'product_name' => $product1->name,

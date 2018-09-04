@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Invoice;
 use App\Product;
-use App\Services\CreateInvoice;
+use App\Services\CreateOrUpdateInvoice;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -28,7 +28,7 @@ class InvoiceController extends Controller
         ]);
     }
 
-    public function store(Request $request, CreateInvoice $createInvoice)
+    public function store(Request $request, CreateOrUpdateInvoice $createInvoice)
     {
         $request->validate([
             //first part

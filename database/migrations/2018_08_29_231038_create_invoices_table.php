@@ -20,12 +20,11 @@ class CreateInvoicesTable extends Migration
             $table->integer('total');
             $table->integer('subtotal');
             $table->integer('tax')->unsigned();
-            $table->enum('status', ['payment_due', 'paid_in_full'])->default('payment_due'); //todo, a partial payment status?
+            $table->enum('status', ['payment_due', 'paid_in_full'])->default('payment_due');
             $table->boolean('is_paid')->default(false);
             $table->string('note')->nullable();
             $table->date('invoice_date');
             $table->date('due_date');
-            $table->date('paid_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
