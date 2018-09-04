@@ -93,7 +93,7 @@ class InvoiceController extends Controller
 //            'customer_name' => ['required', 'string', 'min:2'],
 //            'customer_address' => ['required', 'string'],
             'invoice_date' => ['required', 'date'],
-            'invoice_number' => ['required', 'numeric', 'unique:invoices,invoice_number'],
+            'invoice_number' => ['required', 'numeric'],
             'due_date' => ['required', 'date'],
             'note' => ['required', 'string'],
         ]);
