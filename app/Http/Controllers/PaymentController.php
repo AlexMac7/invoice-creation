@@ -49,6 +49,7 @@ class PaymentController extends Controller
 
         $amountUpdated = ! empty($request->input('amount'));
         $amount = $amountUpdated ? ($request->input('amount') * 100) : $payment->amount;
+        $type = ! empty($request->input('type')) ? $request->input('type') : $payment->type;
 
         if ($amountUpdated) {
             $invoice = $payment->invoice;
@@ -64,7 +65,7 @@ class PaymentController extends Controller
         }
 
         $payment->update([
-            'type' => $request->input('type'),
+            'type' => $type,
             'amount' => $amount,
         ]);
 

@@ -2,9 +2,9 @@
 
 ## Setup
 
-* clone the repository
+* Clone the repository
 
-* install dependencies with composer and npm or yarn:
+* Install dependencies with composer and npm or yarn:
 
 ```
 $ composer install && yarn install
@@ -12,7 +12,9 @@ $ composer install && yarn install
 
 * Create a new database named `invoice-creation`
 
-* Copy the provided .env.example file to .env
+* Create a .env and copy the provided .env.example file to it, using your own `DB_USERNAME` and `DB_PASSWORD` if required.
+
+* Run `php artisan key:generate`
 
 * Run `phpunit`, all tests should pass
 
